@@ -1,24 +1,38 @@
 package com.example.MyBlog.domain;
 
-public class User {
-    private long id;
-    private String name;
-    private int age;
+import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
 
-    public User() {
+@Entity
+@XmlRootElement
+public class User {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false)
+    private String name;
+
+    @Column(nullable = false)
+    private Integer age;
+
+    protected User() {
     }
 
-    public User(String name, int age) {
+    public User(String name, Integer age) {
         this.name = name;
         this.age = age;
     }
-    public long getId() {
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
+
     public String getName() {
         return name;
     }
@@ -27,11 +41,18 @@ public class User {
         this.name = name;
     }
 
-    public int getAge() {
+    public Integer getAge() {
         return age;
     }
 
-    public void setAge(int age) {
+    public void setAge(Integer age) {
         this.age = age;
+    }
+
+    @Override
+    public String toString(){
+        return String.format(
+                "User[id=%d, name='%s', age='%d']",
+                id, name, age);
     }
 }

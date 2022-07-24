@@ -1,15 +1,7 @@
 package com.example.MyBlog.repository;
 
 import com.example.MyBlog.domain.User;
+import org.springframework.data.repository.CrudRepository;
 
-import java.util.List;
-
-public interface UserRepository {
-
-    User saveOrUpateUser(User user);
-    void deleteUser(Long id);
-    User getUserById(Long id);
-    List<User> listUser();
-
-
+public interface UserRepository extends CrudRepository<User,Long> {
 }
