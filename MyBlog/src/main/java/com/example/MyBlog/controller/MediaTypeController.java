@@ -9,6 +9,6 @@ public class MediaTypeController {
 
     @RequestMapping("/user")
     public User getUser(){
-        return new User("zjx",30);
+        return null;
     }
 }

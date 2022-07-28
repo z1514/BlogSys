@@ -44,6 +44,5 @@ public class BlogRepositoryTest {
             System.out.print(b.toString());
         }
         assertThat(page.getTotalElements()).isEqualTo(2);
-
     }
 }

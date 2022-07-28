@@ -1,6 +1,10 @@
 package com.example.MyBlog.domain;
 
+
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
@@ -11,19 +15,73 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @NotEmpty(message = "Name can't be null")
+    @Size(min=2, max=20)
+    @Column(nullable = false, length = 20)
     private String name;
 
-    @Column(nullable = false)
-    private Integer age;
+    @NotEmpty(message = "Email can't be null")
+    @Size(max = 50)
+    @Email(message = "wrong format email")
+    @Column(nullable = false, length = 50, unique = true)
+    private String email;
+
+    @NotEmpty(message = "Account can't be null")
+    @Size(min = 3, max = 20)
+    @Column(nullable = false, length = 20, unique = true)
+    private String username;
+
+    @NotEmpty(message = "Password can't be null")
+    @Size(max = 100)
+    @Column(length = 100)
+    private String password;
+
+    @Column(length = 200)
+    private String avatar;
 
     protected User() {
     }
 
-    public User(String name, Integer age) {
+    public User(String name, String email,String username,String password) {
         this.name = name;
-        this.age = age;
+        this.email = email;
+        this.username = username;
+        this.password = password;
     }
+
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
 
     public Long getId() {
         return id;
@@ -41,18 +99,10 @@ public class User {
         this.name = name;
     }
 
-    public Integer getAge() {
-        return age;
-    }
-
-    public void setAge(Integer age) {
-        this.age = age;
-    }
 
     @Override
-    public String toString(){
-        return String.format(
-                "User[id=%d, name='%s', age='%d']",
-                id, name, age);
+    public String toString() {
+        return String.format("User[id=%d, username='%s', name='%s', email='%s', password='%s']", id, username, name, email,
+                password);
     }
 }
