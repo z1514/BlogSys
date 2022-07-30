@@ -1,7 +1,9 @@
 package com.example.MyBlog.controller;
 
+import com.example.MyBlog.domain.Authority;
 import com.example.MyBlog.domain.User;
 import com.example.MyBlog.repository.UserRepository;
+import com.example.MyBlog.service.AuthorityService;
 import com.example.MyBlog.service.UserService;
 import com.example.MyBlog.util.ConstraintViolationExceptionHandler;
 import com.example.MyBlog.vo.Response;
@@ -25,6 +27,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private AuthorityService authorityService;
 
     @GetMapping
     public ModelAndView list(@RequestParam(value="async",required=false) boolean async,
@@ -50,7 +55,10 @@ public class UserController {
 
 
     @PostMapping
-    public ResponseEntity<Response> create(User user) {
+    public ResponseEntity<Response> create(User user, Long authorityId) {
+        List<Authority> authorities = new ArrayList<>();
+        authorities.add(authorityService.getAuthorityById(authorityId));
+        user.setAuthorities(authorities);
 
         try {
             userService.saveOrUpdateUser(user);
@@ -67,6 +75,7 @@ public class UserController {
         try {
             userService.removeUser(id);
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             return  ResponseEntity.ok().body( new Response(false, e.getMessage()));
         }
         return  ResponseEntity.ok().body( new Response(true, "处理成功"));

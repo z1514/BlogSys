@@ -27,8 +27,8 @@ $(function() {
 				 $("#mainContainer").html(data);
 		     },
 		     error : function() {
-		    	 toastr.error("error!");
-		     }
+				 toastr.error("error!");
+			 }
 		 });
 	}
 	
@@ -107,9 +107,11 @@ $(function() {
 					 toastr.error(data.message);
 				 }
 		     },
-		     error : function() {
-		    	 toastr.error("error!");
-		     }
+		     error : function(e) {
+				 alert(e.responseText);
+				 toastr.error("error!");
+			 }
+
 		 });
 	});
 });

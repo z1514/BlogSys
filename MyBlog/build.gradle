@@ -22,6 +22,8 @@ dependencies {
 	implementation group: 'net.java.dev.jna', name: 'jna', version: '4.5.0'
     implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.12.0'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation "org.springframework.boot:spring-boot-starter-security"
+	implementation group: 'org.thymeleaf.extras', name: 'thymeleaf-extras-springsecurity4', version: '3.0.2.RELEASE'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
