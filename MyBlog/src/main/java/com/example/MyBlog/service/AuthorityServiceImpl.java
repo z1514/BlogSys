@@ -15,11 +15,7 @@ public class AuthorityServiceImpl implements AuthorityService{
 
     @Override
     public Authority getAuthorityById(Long id) {
-        Optional<Authority> optional =  authorityRepository.findById(id);
-        if (optional.isPresent()){
-            return optional.get();
-        }else{
-            return null;
-        }
+        return authorityRepository.findById(id).orElse(null);
+
     }
 }

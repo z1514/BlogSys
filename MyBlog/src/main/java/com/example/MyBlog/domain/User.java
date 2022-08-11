@@ -4,6 +4,8 @@ package com.example.MyBlog.domain;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -151,5 +153,11 @@ public class User implements UserDetails {
     public String toString() {
         return String.format("User[id=%d, username='%s', name='%s', email='%s', password='%s']", id, username, name, email,
                 password);
+    }
+
+    public void setEncodePassword(String password) {
+        PasswordEncoder encoder = new BCryptPasswordEncoder();
+        String encodePasswd = encoder.encode(password);
+        this.password = encodePasswd;
     }
 }
