@@ -23,43 +23,31 @@ public class BlogServiceImpl implements BlogService {
 	@Autowired
 	private BlogRepository blogRepository;
 
-	/* (non-Javadoc)
-	 * @see com.waylau.spring.boot.blog.service.BlogService#saveBlog(com.waylau.spring.boot.blog.domain.Blog)
-	 */
 	@Transactional
 	@Override
 	public Blog saveBlog(Blog blog) {
 		return blogRepository.save(blog);
 	}
 
-	/* (non-Javadoc)
-	 * @see com.waylau.spring.boot.blog.service.BlogService#removeBlog(java.lang.Long)
-	 */
 	@Transactional
 	@Override
 	public void removeBlog(Long id) {
 		blogRepository.deleteById(id);
 	}
 
-	/* (non-Javadoc)
-	 * @see com.waylau.spring.boot.blog.service.BlogService#updateBlog(com.waylau.spring.boot.blog.domain.Blog)
-	 */
 	@Transactional
 	@Override
 	public Blog updateBlog(Blog blog) {
 		return blogRepository.save(blog);
 	}
 
-	/* (non-Javadoc)
-	 * @see com.waylau.spring.boot.blog.service.BlogService#getBlogById(java.lang.Long)
-	 */
 	@Override
 	public Blog getBlogById(Long id) {
 		return blogRepository.findById(id).orElse(null);
 	}
 
 	@Override
-	public Page<Blog> listBlogsByTitleLike(User user, String title, Pageable pageable) {
+	public Page<Blog> listBlogsByTitleVote(User user, String title, Pageable pageable) {
 		// 模糊查询
 		title = "%" + title + "%";
 		Page<Blog> blogs = blogRepository.findByUserAndTitleLikeOrderByCreateTimeDesc(user, title, pageable);
@@ -67,7 +55,7 @@ public class BlogServiceImpl implements BlogService {
 	}
 
 	@Override
-	public Page<Blog> listBlogsByTitleLikeAndSort(User user, String title, Pageable pageable) {
+	public Page<Blog> listBlogsByTitleVoteAndSort(User user, String title, Pageable pageable) {
 		// 模糊查询
 		title = "%" + title + "%";
 		Page<Blog> blogs = blogRepository.findByUserAndTitleLike(user, title, pageable);
@@ -77,7 +65,7 @@ public class BlogServiceImpl implements BlogService {
 	@Override
 	public void readingIncrease(Long id) {
 		Blog blog = blogRepository.findById(id).orElse(null);
-		blog.setReading(blog.getReading()+1);
+		blog.setReadSize(blog.getReadSize()+1);
 		blogRepository.save(blog);
 	}
  
