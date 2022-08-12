@@ -155,6 +155,10 @@ public class User implements UserDetails {
                 password);
     }
 
+    /*
+    * 加密密码
+    * @param password
+    * */
     public void setEncodePassword(String password) {
         PasswordEncoder encoder = new BCryptPasswordEncoder();
         String encodePasswd = encoder.encode(password);
