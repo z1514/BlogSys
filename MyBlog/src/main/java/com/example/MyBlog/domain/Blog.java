@@ -10,6 +10,7 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * Blog 实体
@@ -66,6 +67,11 @@ public class Blog implements Serializable {
     @Column(name="tags", length = 100)
     private String tags;  // 标签
 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "blog_comment", joinColumns = @JoinColumn(name = "blod_id", referencedColumnName = "id"),
+    inverseJoinColumns = @JoinColumn(name = "comment_id", referencedColumnName = "id"))
+    private List<Comment> comments;
+
     protected Blog() {
         // TODO Auto-generated constructor stub
     }
@@ -110,6 +116,7 @@ public class Blog implements Serializable {
     public User getUser() {
         return user;
     }
+
     public void setUser(User user) {
         this.user = user;
     }
@@ -153,5 +160,30 @@ public class Blog implements Serializable {
 
     public void setVoteSize(Integer voteSize) {
         this.voteSize = voteSize;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+        this.commentSize = this.comments.size();
+    }
+
+    public void addComment(Comment comment){
+        this.comments.add(comment);
+        this.commentSize = this.comments.size();
+    }
+
+    public void removeComment(Long commentId) {
+        for (int index=0; index < this.comments.size(); index ++ ) {
+            if (comments.get(index).getId() == commentId) {
+                this.comments.remove(index);
+                break;
+            }
+        }
+
+        this.commentSize = this.comments.size();
     }
 }

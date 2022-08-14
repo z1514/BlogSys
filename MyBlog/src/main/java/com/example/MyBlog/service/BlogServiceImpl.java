@@ -2,9 +2,11 @@ package com.example.MyBlog.service;
 
 import javax.transaction.Transactional;
 
+import com.example.MyBlog.domain.Comment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.example.MyBlog.domain.Blog;
@@ -68,6 +70,22 @@ public class BlogServiceImpl implements BlogService {
 		blog.setReadSize(blog.getReadSize()+1);
 		blogRepository.save(blog);
 	}
- 
+
+	@Override
+	public Blog createComment(Long blogId, String commentContent) {
+		Blog originalBlog = blogRepository.findById(blogId).orElse(null);
+		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Comment comment = new Comment(user, commentContent);
+		originalBlog.addComment(comment);
+		return blogRepository.save(originalBlog);
+	}
+
+	@Override
+	public void removeComment(Long blogId, Long commentId) {
+		Blog originalBlog = blogRepository.findById(blogId).orElse(null);
+		originalBlog.removeComment(commentId);
+		blogRepository.save(originalBlog);
+	}
+
 
 }
