@@ -3,6 +3,7 @@ package com.example.MyBlog.service;
 import javax.transaction.Transactional;
 
 import com.example.MyBlog.domain.Comment;
+import com.example.MyBlog.domain.Vote;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,12 +14,6 @@ import com.example.MyBlog.domain.Blog;
 import com.example.MyBlog.domain.User;
 import com.example.MyBlog.repository.BlogRepository;
 
-/**
- * Blog 服务.
- * 
- * @since 1.0.0 2017年4月7日
- * @author <a href="https://waylau.com">Way Lau</a>
- */
 @Service
 public class BlogServiceImpl implements BlogService {
 
@@ -84,6 +79,25 @@ public class BlogServiceImpl implements BlogService {
 	public void removeComment(Long blogId, Long commentId) {
 		Blog originalBlog = blogRepository.findById(blogId).orElse(null);
 		originalBlog.removeComment(commentId);
+		blogRepository.save(originalBlog);
+	}
+
+	@Override
+	public Blog createVote(Long blogId) {
+		Blog originalBlog = blogRepository.findById(blogId).orElse(null);
+		User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Vote vote = new Vote(user);
+		boolean isExist = originalBlog.addVote(vote);
+		if (isExist) {
+			throw new IllegalArgumentException("该用户已经点过赞了");
+		}
+		return blogRepository.save(originalBlog);
+	}
+
+	@Override
+	public void removeVote(Long blogId, Long voteId) {
+		Blog originalBlog = blogRepository.findById(blogId).orElse(null);
+		originalBlog.removeVote(voteId);
 		blogRepository.save(originalBlog);
 	}
 

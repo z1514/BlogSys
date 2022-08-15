@@ -1,6 +1,7 @@
 package com.example.MyBlog.domain;
 
 import com.github.rjeschke.txtmark.Processor;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.elasticsearch.annotations.Document;
 
@@ -71,6 +72,11 @@ public class Blog implements Serializable {
     @JoinTable(name = "blog_comment", joinColumns = @JoinColumn(name = "blod_id", referencedColumnName = "id"),
     inverseJoinColumns = @JoinColumn(name = "comment_id", referencedColumnName = "id"))
     private List<Comment> comments;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "blog_vote", joinColumns = @JoinColumn(name="blog_id", referencedColumnName = "id"),
+        inverseJoinColumns = @JoinColumn(name = "vote_id", referencedColumnName = "id"))
+    private List<Vote> votes;
 
     protected Blog() {
         // TODO Auto-generated constructor stub
@@ -185,5 +191,43 @@ public class Blog implements Serializable {
         }
 
         this.commentSize = this.comments.size();
+    }
+
+    public boolean addVote(Vote vote){
+        boolean isExist = false;
+
+        for (int index=0; index < this.votes.size(); index ++ ) {
+            if (this.votes.get(index).getUser().getId() == vote.getUser().getId()) {
+                isExist = true;
+                break;
+            }
+        }
+
+        if (!isExist){
+            this.votes.add(vote);
+            this.voteSize = this.votes.size();
+        }
+
+        return isExist;
+    }
+
+    public void removeVote(Long voteId) {
+        for (int index=0; index < this.votes.size(); index ++ ) {
+            if (this.votes.get(index).getId() == voteId) {
+                this.votes.remove(index);
+                break;
+            }
+        }
+
+        this.voteSize = this.votes.size();
+    }
+
+    public List<Vote> getVotes(){
+        return this.votes;
+    }
+
+    public void setVotes(List<Vote> votes){
+        this.votes = votes;
+        this.voteSize = this.votes.size();
     }
 }
