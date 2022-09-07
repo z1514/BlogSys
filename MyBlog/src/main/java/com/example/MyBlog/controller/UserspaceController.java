@@ -1,5 +1,8 @@
 package com.example.MyBlog.controller;
 
+import com.example.MyBlog.domain.Catalog;
+import com.example.MyBlog.domain.Vote;
+import com.example.MyBlog.service.CatalogService;
 import com.example.MyBlog.util.ConstraintViolationExceptionHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -42,6 +45,9 @@ public class UserspaceController {
 
     @Autowired
     private BlogService blogService;
+
+    @Autowired
+    private CatalogService catalogService;
 
     @Value("${file.server.url}")
     private String fileServerUrl;
@@ -136,7 +142,10 @@ public class UserspaceController {
         Page<Blog> page = null;
 
         if (catalogId != null && catalogId > 0) { // 分类查询
-            //TODO
+            Catalog catalog = catalogService.getCatalogById(catalogId);
+            Pageable pageable = PageRequest.of(pageIndex,pageSize);
+            page = blogService.listBlogsByCatalog(catalog,pageable);
+            order = "";
         } else if (order.equals("hot")) { // 最热查询
             Sort sort = Sort.by(Direction.DESC,"readSize","commentSize","voteSize");
             Pageable pageable = PageRequest.of(pageIndex, pageSize,sort);
@@ -183,8 +192,20 @@ public class UserspaceController {
             }
         }
 
+        List<Vote> votes = blog.getVotes();
+        Vote currentVote = null;
+
+        if (principal!=null){
+            for (Vote vote:votes){
+                vote.getUser().getUsername().equals(principal.getUsername());
+                currentVote = vote;
+                break;
+            }
+        }
+
         model.addAttribute("isBlogOwner", isBlogOwner);
         model.addAttribute("blogModel",blog);
+        model.addAttribute("currentVote",currentVote);
 
         return "/userspace/blog";
     }
@@ -207,9 +228,12 @@ public class UserspaceController {
     }
 
     @GetMapping("/{username}/blogs/edit")
-    public ModelAndView createBlog(Model model) {
+    public ModelAndView createBlog(@PathVariable("username") String username, Model model) {
+        User user = (User)userDetailsService.loadUserByUsername(username);
+        List<Catalog> catalogs = catalogService.listCatalogs(user);
         model.addAttribute("blog", new Blog(null, null, null));
-        model.addAttribute("fileServerUrl",fileServerUrl);
+//        model.addAttribute("fileServerUrl",fileServerUrl);
+        model.addAttribute("catalogs",catalogs);
         return new ModelAndView("/userspace/blogedit", "blogModel", model);
     }
 
@@ -220,20 +244,27 @@ public class UserspaceController {
      */
     @GetMapping("/{username}/blogs/edit/{id}")
     public ModelAndView editBlog(@PathVariable("username") String username,@PathVariable("id") Long id, Model model) {
+        User user = (User)userDetailsService.loadUserByUsername(username);
+        List<Catalog> catalogs = catalogService.listCatalogs(user);
+
         model.addAttribute("blog", blogService.getBlogById(id));
+        model.addAttribute("catalogs",catalogs);
         return new ModelAndView("/userspace/blogedit", "blogModel", model);
     }
 
     @PostMapping("/{username}/blogs/edit")
     @PreAuthorize("authentication.name.equals(#username)")
     public ResponseEntity<Response> saveBlog(@PathVariable("username") String username, @RequestBody Blog blog) {
-
+        if (blog.getCatalog().getId()==null){
+            return ResponseEntity.ok().body(new Response(false,"No catalog"));
+        }
         try {
             if (blog.getId()!=null) {
                 Blog orignalBlog = blogService.getBlogById(blog.getId());
                 orignalBlog.setTitle(blog.getTitle());
                 orignalBlog.setContent(blog.getContent());
                 orignalBlog.setSummary(blog.getSummary());
+                orignalBlog.setCatalog(blog.getCatalog());
                 orignalBlog.setTags(blog.getTags());
                 blogService.saveBlog(orignalBlog);
             } else {

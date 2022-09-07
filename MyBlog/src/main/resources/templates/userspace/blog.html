@@ -44,7 +44,7 @@
                 <div class="card-block">
 
 
-                    <h5>分类：<a th:href="'/u/'+${blogModel.user.username} + '/blogs?catalog=test'" th:text="test">
+                    <h5>分类：<a th:href="'/u/'+${blogModel.user.username} + '/blogs?catalog='+${blogModel.catalog.id} " th:text="${blogModel.catalog.name}">
                         Spring Data
                     </a></h5>
 

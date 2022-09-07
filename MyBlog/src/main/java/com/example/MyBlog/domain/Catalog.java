@@ -13,7 +13,7 @@ public class Catalog implements Serializable {
     private Long id;
 
     @NotEmpty(message = "name is not empty")
-    @Size(min = 2, max = 5)
+    @Size(min = 2, max = 30)
     @Column(nullable = false)
     private String name;
 

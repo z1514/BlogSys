@@ -62,6 +62,7 @@ public class CommentController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_USER')")
     public ResponseEntity<Response> deleteBlog(@PathVariable("id") Long id, Long blogId){
         boolean isOwner = false;
         User user = commentService.getCommentById(id).getUser();
