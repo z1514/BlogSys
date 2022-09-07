@@ -9,6 +9,7 @@ import org.elasticsearch.action.search.SearchType;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.elasticsearch.search.aggregations.Aggregations;
 import org.elasticsearch.search.aggregations.BucketOrder;
+import org.elasticsearch.search.aggregations.bucket.terms.ParsedStringTerms;
 import org.elasticsearch.search.aggregations.bucket.terms.StringTerms;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms.Bucket;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms;
@@ -17,7 +18,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
+import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 import org.springframework.data.elasticsearch.core.ResultsExtractor;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
@@ -37,7 +38,7 @@ public class EsBlogServiceImpl implements EsBlogService{
     @Autowired
     private EsBlogRepository esBlogRepository;
     @Autowired
-    private ElasticsearchTemplate elasticsearchRestTemplate;
+    private ElasticsearchRestTemplate elasticsearchRestTemplate;
     @Autowired
     private UserService userService;
 
@@ -117,9 +118,11 @@ public class EsBlogServiceImpl implements EsBlogService{
             }
         });
 
-        StringTerms modelTerms = (StringTerms) aggregations.asMap().get("tags");
-
-        Iterator<StringTerms.Bucket> modelBucketIt = modelTerms.getBuckets().iterator();
+        ParsedStringTerms modelTerms = (ParsedStringTerms) aggregations.asMap().get("tags");
+        if (modelTerms==null){
+            return list;
+        }
+        Iterator<Bucket> modelBucketIt = (Iterator<Bucket>) modelTerms.getBuckets().iterator();
         while(modelBucketIt.hasNext()){
             Bucket actiontypeBucket = modelBucketIt.next();
             list.add(new TagVO(actiontypeBucket.getKey().toString(),
@@ -148,9 +151,12 @@ public class EsBlogServiceImpl implements EsBlogService{
             }
         });
 
-        StringTerms modelTerms =  (StringTerms)aggregations.asMap().get("users");
-
-        Iterator<StringTerms.Bucket> modelBucketIt = modelTerms.getBuckets().iterator();
+        ParsedStringTerms modelTerms =  (ParsedStringTerms)aggregations.asMap().get("users");
+        if (modelTerms==null){
+            List<User> list_error = new ArrayList<>();
+            return list_error;
+        }
+        Iterator<Bucket> modelBucketIt = (Iterator<Bucket>) modelTerms.getBuckets().iterator();
         while (modelBucketIt.hasNext()) {
             Bucket actiontypeBucket = modelBucketIt.next();
             String username = actiontypeBucket.getKey().toString();

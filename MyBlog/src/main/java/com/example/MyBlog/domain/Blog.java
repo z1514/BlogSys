@@ -3,6 +3,8 @@ package com.example.MyBlog.domain;
 import com.github.rjeschke.txtmark.Processor;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.*;
@@ -68,14 +70,15 @@ public class Blog implements Serializable {
     @Column(name="tags", length = 100)
     private String tags;  // 标签
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "blog_comment", joinColumns = @JoinColumn(name = "blod_id", referencedColumnName = "id"),
     inverseJoinColumns = @JoinColumn(name = "comment_id", referencedColumnName = "id"))
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<Comment> comments;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(name = "blog_vote", joinColumns = @JoinColumn(name="blog_id", referencedColumnName = "id"),
-        inverseJoinColumns = @JoinColumn(name = "vote_id", referencedColumnName = "id"))
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "blog_vote", joinColumns = @JoinColumn(name="blog_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "vote_id", referencedColumnName = "id"))
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<Vote> votes;
 
     @OneToOne(cascade = CascadeType.DETACH, fetch = FetchType.LAZY)
