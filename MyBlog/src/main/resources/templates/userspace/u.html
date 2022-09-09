@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head th:replace="~{fragments/header :: header}">
 </head>
 <body>
@@ -57,9 +57,9 @@
 	            		<a href="javascript:void(0)" th:attr="catalogId=*{id}" class="blog-query-by-catalog">
 	                    [[*{name}]]
 	                	</a>
-	      				<span class="blog-right">
+						<span class="blog-right">
 	                		<a href="javascript:void(0)" th:if="${isCatalogsOwner}" class="blog-edit-catalog" data-toggle="modal"
-								data-target="#flipFlop" role="button" th:attr="catalogId=*{id}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+							   data-target="#flipFlop" role="button" th:attr="catalogId=*{id}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
 	                		<a href="javascript:void(0)" th:if="${isCatalogsOwner}" class="blog-delete-catalog" th:attr="catalogId=*{id}"><i class="fa fa-times" aria-hidden="true"></i></a>
 	            		</span>
 	   
