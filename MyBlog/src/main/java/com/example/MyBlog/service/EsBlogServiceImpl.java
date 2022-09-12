@@ -108,7 +108,7 @@ public class EsBlogServiceImpl implements EsBlogService{
                 .withQuery(matchAllQuery())
                 .withSearchType(SearchType.QUERY_THEN_FETCH)
                 .withIndices("blog").withTypes("blog")
-                .addAggregation(terms("users").field("username").order(BucketOrder.count(false)).size(12))
+                .addAggregation(terms("tags").field("tags").order(BucketOrder.count(false)).size(12))
                 .build();
 
         Aggregations aggregations = elasticsearchRestTemplate.query(searchQuery, new ResultsExtractor<Aggregations>() {

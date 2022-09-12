@@ -58,10 +58,10 @@
 
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="javascript:void(0)" th:attr="url='/blogs?order=new'" >最新 <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="javascript:void(0)" th:attr="url='/blogs?order=new'" >Recent<span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="javascript:void(0)" th:attr="url='/blogs?order=hot'">最热</a>
+                    <a class="nav-link" href="javascript:void(0)" th:attr="url='/blogs?order=hot'">Popular</a>
                 </li>
                 <form class="form-inline mt-2 mt-md-0">
                     <input class="form-control mr-sm-2" type="text" placeholder="搜索" id="indexkeyword" th:value="${keyword}">
@@ -90,8 +90,8 @@
                 
 
             <div sec:authorize="isAnonymous()">
-                <a href="/login" class="btn btn-outline-success my-2 my-sm-0" type="submit">登录</a>
-                <a href="/register" class="btn btn-outline-success my-2 my-sm-0" type="submit">注册</a>
+                <a href="/login" class="btn btn-outline-success my-2 my-sm-0" type="submit">Login</a>
+                <a href="/register" class="btn btn-outline-success my-2 my-sm-0" type="submit">Sign up</a>
             </div>
 
         </div>

@@ -69,7 +69,7 @@ public class CatalogController {
         return ResponseEntity.ok().body(new Response(true, "success", null));
     }
 
-    @DeleteMapping("/{id")
+    @DeleteMapping("/{id}")
     @PreAuthorize("authentication.name.equals(#username)")
     public ResponseEntity<Response> delete(String username, @PathVariable("id") Long id) {
         try{

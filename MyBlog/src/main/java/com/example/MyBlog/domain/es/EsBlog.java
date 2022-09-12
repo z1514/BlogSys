@@ -18,7 +18,7 @@ public class EsBlog implements Serializable {
     private String id;
 
     @Field(type = FieldType.Keyword)
-    private Long blogId; // Blog 的 id
+    private Long blogId;
     @Field(type = FieldType.Text)
     private String title;
     @Field(type = FieldType.Text)
@@ -38,7 +38,7 @@ public class EsBlog implements Serializable {
     private Integer commentSize = 0;
     @Field(type = FieldType.Keyword)
     private Integer voteSize = 0;
-    @Field(type = FieldType.Text)
+    @Field(type = FieldType.Text, fielddata = true)
     private String tags;
 
     protected EsBlog(){
