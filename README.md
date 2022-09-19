@@ -84,15 +84,15 @@ To use the system, an elastic search engine should be installed. A good way to d
 This project is open source and available under the [MIT](https://opensource.org/licenses/MIT). 
 
 <!-- You don't have to include all sections - just the one's relevant to your project -->
-[contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=for-the-badge
+[contributors-shield]: https://img.shields.io/github/contributors/z1514/BlogSys.svg?style=for-the-badge
 [contributors-url]: https://github.com/z1514/BlogSys/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/othneildrew/Best-README-Template.svg?style=for-the-badge
+[forks-shield]: https://img.shields.io/github/forks/z1514/BlogSys.svg?style=for-the-badge
 [forks-url]: https://github.com/z1514/BlogSys/network/members
-[stars-shield]: https://img.shields.io/github/stars/othneildrew/Best-README-Template.svg?style=for-the-badge
+[stars-shield]: https://img.shields.io/github/stars/z1514/BlogSys.svg?style=for-the-badge
 [stars-url]: https://github.com/z1514/BlogSys/stargazers
-[issues-shield]: https://img.shields.io/github/issues/othneildrew/Best-README-Template.svg?style=for-the-badge
+[issues-shield]: https://img.shields.io/github/issues/z1514/BlogSys.svg?style=for-the-badge
 [issues-url]: https://github.com/z1514/BlogSys/issues
-[license-shield]: https://img.shields.io/github/license/othneildrew/Best-README-Template.svg?style=for-the-badge
+[license-shield]: https://img.shields.io/github/license/z1514/BlogSys.svg?style=for-the-badge
 [license-url]: https://github.com/z1514/BlogSys/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/jianxiongzheng
