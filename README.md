@@ -69,8 +69,9 @@ To use the system, an elastic search engine should be installed. A good way to d
 - [x] Add blog search engine for blog search
 - [x] Add most popular and most recent blogs
 - [ ] Add multiple languges
-  -[x] Chinese
-  -[ ] English
+  
+  - [x] Chinese
+  - [ ] English
 - [ ] Finish cloud server testing.
 - [ ] Add CI tools for the system. 
 
