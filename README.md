@@ -41,7 +41,7 @@ The techniques I used include Spring Boot, Elastic Search, Spring Security, Elas
 - Filter blogs with keyword, update time and popularity
 
 
-## Setup
+## :rocket: Setup
 Before you start the system, please modified ```MyBlog/src/main/resources/application.properties``` to set MySQL username and password to make sure the database connection. 
 
 To use the system, an elastic search engine should be installed. A good way to do it is use docker
