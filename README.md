@@ -11,7 +11,7 @@
 * [Summary](#summary)
 * [Technologies Used](#technologies-used)
 * [Features](#features)
-* [Setup](#setup)
+* [Setup](setup)
 * [Roadmap](#roadmap)
 * [Contact](#contact)
 <!-- * [License](#license) -->
@@ -41,7 +41,7 @@ The techniques I used include Spring Boot, Elastic Search, Spring Security, Elas
 - Filter blogs with keyword, update time and popularity
 
 
-## :rocket: Setup
+## :rocket:Setup
 Before you start the system, please modified ```MyBlog/src/main/resources/application.properties``` to set MySQL username and password to make sure the database connection. 
 
 To use the system, an elastic search engine should be installed. A good way to do it is use docker
@@ -50,12 +50,10 @@ To use the system, an elastic search engine should be installed. A good way to d
  
  Or you can download it from [elastic search website](https://www.elastic.co/cn/downloads/past-releases/elasticsearch-6-8-4) and refer to the [tutorial](https://www.elastic.co/guide/en/elasticsearch/reference/current/install-elasticsearch.html) to start the elastic search. 
  
- Then run the command to build the system with Gralde.
+ Then run the command to build the system with Gralde and start the system. In the process, the elasticsearch service should be running. 
  
- ```gradlew build```
+ ```gradlew bootRun```
  
- Run the command here to start the system.
- ```gradlew run bootRun```
  
  ## Roadmap
 
