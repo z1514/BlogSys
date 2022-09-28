@@ -26,11 +26,13 @@ The techniques I used include Spring Boot, Elastic Search, Spring Security, Elas
 
 
 ## Technologies Used
-- Spring Boot
-- Hibernate
-- Elastic Search
-- Spring Security
-- MySQL
+- (Spring Boot)[https://spring.io/projects/spring-boot]
+- (Hibernate)[https://hibernate.org/]
+- (Elastic Search)[https://www.elastic.co/cn/]
+- (Spring Security)[https://spring.io/projects/spring-security]
+- (MySQL)[https://www.mysql.com/]
+- (Gradle)[https://gradle.org/]
+- (JavaScript)[https://www.javascript.com/]
 
 ## Features
 - User authentication(register and login)
